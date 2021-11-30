@@ -36,12 +36,10 @@ jobs:
           # Remove zola binary and downloads before deploy
           rm -f zola*
           
-      - name: Copy build outputs to main branch
-        run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@gmail.com"
-
-          git fetch origin
-          git checkout -b main origin/main
-          git add ./public && git commit -m "Publish build to main from source branch"
-          git push --set-upstream main
+      - name: Publish to main branch
+        uses: seanmiddleditch/gha-publish-to-git@v2
+        with:
+          branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_folder: public
+          target_folder: public
