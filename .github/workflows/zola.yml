@@ -22,7 +22,7 @@ jobs:
       - name: Download Zola Release
         uses: Legion2/download-release-action@v2.1.0
         with:
-          repository: cobalt-org/cobalt.rs
+          repository: getzola/zola 
           tag: 'v0.14.1'
           file: zola-v0.14.1-x86_64-unknown-linux-gnu.tar.gz
 
