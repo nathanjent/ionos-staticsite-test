@@ -38,11 +38,10 @@ jobs:
           
       - name: Copy build outputs to main branch
         run: |
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "${GITHUB_ACTOR}@gmail.com"
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@gmail.com"
 
           git fetch origin
           git checkout -b main origin/main
           git add ./public && git commit -m "Publish build to main from source branch"
           git push --set-upstream main
-          git checkout source
