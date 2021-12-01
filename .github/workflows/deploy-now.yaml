@@ -1,13 +1,15 @@
 name: Deploy Now
 
 on:
-  - push
-  - workflow_dispatch
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy-now:
     runs-on: ubuntu-latest
     steps:
+
       - name: Fetch project data
         uses: ionos-deploy-now/retrieve-project-info-action@v1
         id: project
@@ -15,11 +17,29 @@ jobs:
           api-key: ${{ secrets.IONOS_API_KEY }}
           project: ${{ secrets.IONOS_PROJECT_ID }}
           service-host: api-us.ionos.space
+
       - name: checkout
         if: ${{ steps.project.outputs.deployment-enabled == 'true' }}
         uses: actions/checkout@v2
         with:
           submodules: 'recursive'
+
+      - name: Download Zola Release
+        uses: Legion2/download-release-action@v2.1.0
+        with:
+          repository: getzola/zola 
+          tag: 'v0.14.1'
+          file: zola-v0.14.1-x86_64-unknown-linux-gnu.tar.gz
+
+      - name: Extract Zola Binary
+        run: tar -xzf zola-v0.14.1-x86_64-unknown-linux-gnu.tar.gz
+
+      - name: Build
+        run: |
+          ./zola build
+          # Remove zola binary and downloads before deploy
+          rm -f zola*
+
       - name: Deploy build
         if: ${{ steps.project.outputs.deployment-enabled == 'true' }}
         uses: ionos-deploy-now/deploy-to-ionos-action@v1
