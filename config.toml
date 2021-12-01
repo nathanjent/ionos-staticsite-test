@@ -2,7 +2,7 @@ title = "Test blog"
 theme = "oceanic-zen"
 
 # The URL the site will be built for
-base_url = "https://test.nathanjent.com"
+base_url = "https://home-5005930559.app-ionos.space/"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
