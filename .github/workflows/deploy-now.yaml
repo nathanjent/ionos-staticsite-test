@@ -1,9 +1,8 @@
 name: Deploy Now
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+  - push
+  - workflow_dispatch
 
 jobs:
   deploy-now:
